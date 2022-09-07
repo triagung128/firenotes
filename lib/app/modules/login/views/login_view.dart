@@ -9,6 +9,13 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final boxRead = controller.box.read(controller.rememberMeKey);
+    if (boxRead != null) {
+      controller.emailC.text = boxRead['email'];
+      controller.passwordC.text = boxRead['password'];
+      controller.isRememberMe.value = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -52,8 +59,19 @@ class LoginView extends GetView<LoginController> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Expanded(
+                child: Obx(
+                  () => CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: controller.isRememberMe.value,
+                    onChanged: (_) => controller.isRememberMe.toggle(),
+                    title: const Text('Remember Me'),
+                    controlAffinity: ListTileControlAffinity.leading,
+                  ),
+                ),
+              ),
               TextButton(
                 onPressed: () => Get.toNamed(Routes.resetPassword),
                 child: const Text('Forgot Password ?'),

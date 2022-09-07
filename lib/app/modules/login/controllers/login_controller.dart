@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../routes/app_pages.dart';
 
@@ -11,8 +12,13 @@ class LoginController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxBool isPasswordHidden = true.obs;
+  RxBool isRememberMe = false.obs;
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final GetStorage box = GetStorage();
+
+  final String rememberMeKey = 'REMEMBER ME KEY';
 
   void errorMsg(String msg) {
     Get.snackbar('Terjadi Kesalahan', msg);
@@ -23,8 +29,7 @@ class LoginController extends GetxController {
       isLoading.value = true;
 
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: emailC.text,
           password: passwordC.text,
         );
@@ -34,11 +39,23 @@ class LoginController extends GetxController {
         isLoading.value = false;
 
         if (userCredential.user!.emailVerified == true) {
+          if (box.read(rememberMeKey) != null) {
+            await box.remove(rememberMeKey);
+          }
+
+          if (isRememberMe.isTrue) {
+            await box.write(rememberMeKey, {
+              'email': emailC.text,
+              'password': passwordC.text,
+            });
+          }
+
           Get.offAllNamed(Routes.home);
         } else {
           if (kDebugMode) {
             print('User belum terverifikasi & tidak dapat login');
           }
+
           Get.defaultDialog(
             title: 'Belum Terverifikasi',
             middleText: 'Apakah kamu ingin mengirim email verifikasi kembali ?',
