@@ -5,6 +5,7 @@ import '../controllers/add_note_controller.dart';
 
 class AddNoteView extends GetView<AddNoteController> {
   const AddNoteView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

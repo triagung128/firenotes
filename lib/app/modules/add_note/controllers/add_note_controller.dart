@@ -9,6 +9,7 @@ import '../../../routes/app_pages.dart';
 class AddNoteController extends GetxController {
   final titleC = TextEditingController();
   final descriptionC = TextEditingController();
+
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
@@ -27,21 +28,22 @@ class AddNoteController extends GetxController {
         });
         isLoading.value = false;
         Get.defaultDialog(
-          title: 'Sukses',
-          middleText: 'Data berhasil disimpan',
-          textConfirm: 'Oke',
-          confirmTextColor: Colors.white,
-          onConfirm: () => Get.offAllNamed(Routes.home),
+          title: 'Success',
+          middleText: 'Data saved successfully',
+          actions: [
+            OutlinedButton(
+              onPressed: () => Get.offAllNamed(Routes.home),
+              child: const Text('Okay'),
+            ),
+          ],
         );
       } catch (e) {
         isLoading.value = false;
-        if (kDebugMode) {
-          print(e);
-        }
-        Get.snackbar('Terjadi Kesalahan', 'Gagal menyimpan data');
+        if (kDebugMode) print(e);
+        Get.snackbar('Error', 'Failed to save data!');
       }
     } else {
-      Get.snackbar('Terjadi Kesalahan', 'Form input harus diisi!');
+      Get.snackbar('Warning', 'The input field cannot be empty!');
     }
   }
 }

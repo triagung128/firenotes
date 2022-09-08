@@ -1,28 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  final String rememberMeKey = 'REMEMBER ME KEY';
+
   final TextEditingController emailC = TextEditingController();
   final TextEditingController passwordC = TextEditingController();
 
-  RxBool isLoading = false.obs;
-  RxBool isPasswordHidden = true.obs;
-  RxBool isRememberMe = false.obs;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final GetStorage box = GetStorage();
 
-  final String rememberMeKey = 'REMEMBER ME KEY';
-
-  void errorMsg(String msg) {
-    Get.snackbar('Terjadi Kesalahan', msg);
-  }
+  RxBool isLoading = false.obs;
+  RxBool isRememberMe = false.obs;
 
   void login() async {
     if (emailC.text.isNotEmpty && passwordC.text.isNotEmpty) {
@@ -33,10 +27,7 @@ class LoginController extends GetxController {
           email: emailC.text,
           password: passwordC.text,
         );
-        if (kDebugMode) {
-          print(userCredential);
-        }
-        isLoading.value = false;
+        if (kDebugMode) print(userCredential);
 
         if (userCredential.user!.emailVerified == true) {
           if (box.read(rememberMeKey) != null) {
@@ -50,19 +41,19 @@ class LoginController extends GetxController {
             });
           }
 
+          isLoading.value = false;
           Get.offAllNamed(Routes.home);
         } else {
-          if (kDebugMode) {
-            print('User belum terverifikasi & tidak dapat login');
-          }
+          isLoading.value = false;
+          if (kDebugMode) print('User not verified!');
 
           Get.defaultDialog(
-            title: 'Belum Terverifikasi',
-            middleText: 'Apakah kamu ingin mengirim email verifikasi kembali ?',
+            title: 'Your account is not verified',
+            middleText: 'Do you want to send the verification email again?',
             actions: [
               OutlinedButton(
                 onPressed: () => Get.back(),
-                child: const Text('Tidak'),
+                child: const Text('No'),
               ),
               ElevatedButton(
                 onPressed: () async {
@@ -71,37 +62,34 @@ class LoginController extends GetxController {
                     await userCredential.user!.sendEmailVerification();
                     Get.back();
                     if (kDebugMode) {
-                      print('Berhasil mengirim email verifikasi');
+                      print('Successfully sent verification email');
                     }
                     Get.snackbar(
-                      'Sukses',
-                      'Kami telah mengirimkan email verifikasi. Segera buka email Anda dan lakukan verifikasi!',
+                      'Success',
+                      'We have sent a verification email. Check your email!',
                     );
                   } on FirebaseAuthException catch (e) {
                     Get.back();
                     if (e.code == 'too-many-requests') {
-                      errorMsg(
-                        'Gagal mengirim email verifikasi. Silahkan ulangi kembali!',
+                      Get.snackbar(
+                        'Error',
+                        'Failed to send verification email!',
                       );
                     }
                   }
                 },
-                child: const Text('Kirim Lagi'),
+                child: const Text('Send Again'),
               ),
             ],
           );
         }
       } on FirebaseAuthException catch (e) {
         isLoading.value = false;
-
-        if (kDebugMode) {
-          print(e.code);
-        }
-
-        errorMsg(e.code);
+        if (kDebugMode) print(e.code);
+        Get.snackbar('Error', e.code);
       }
     } else {
-      errorMsg('Email & Password harus diisi');
+      Get.snackbar('Warning', 'The input field cannot be empty!');
     }
   }
 }

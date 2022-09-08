@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/edit_note_controller.dart';
@@ -25,11 +24,12 @@ class EditNoteView extends GetView<EditNoteController> {
 
           if (snapshot.data == null) {
             return const Center(
-              child: Text('Tidak dapat mengambil informasi data note.'),
+              child: Text('Failed to get data!'),
             );
           } else {
             controller.titleC.text = snapshot.data!['title'];
             controller.descriptionC.text = snapshot.data!['description'];
+
             return ListView(
               padding: const EdgeInsets.all(16.0),
               children: [

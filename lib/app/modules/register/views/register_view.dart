@@ -1,3 +1,4 @@
+import 'package:firenotes/app/widgets/form_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,26 +56,9 @@ class RegisterView extends GetView<RegisterController> {
           const SizedBox(
             height: 16,
           ),
-          Obx(
-            () => TextField(
-              controller: controller.passwordC,
-              autocorrect: false,
-              obscureText: controller.isPasswordHidden.isTrue ? true : false,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () => controller.isPasswordHidden.toggle(),
-                  icon: Icon(
-                    controller.isPasswordHidden.isTrue
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                ),
-              ),
-            ),
+          FormPassword(
+            textEditingController: controller.passwordC,
+            labelText: 'Password',
           ),
           const SizedBox(
             height: 32.0,

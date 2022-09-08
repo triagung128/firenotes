@@ -9,6 +9,7 @@ import '../../../routes/app_pages.dart';
 class EditNoteController extends GetxController {
   final titleC = TextEditingController();
   final descriptionC = TextEditingController();
+
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
@@ -25,9 +26,7 @@ class EditNoteController extends GetxController {
           .get();
       return doc.data();
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      if (kDebugMode) print(e);
       return null;
     }
   }
@@ -48,22 +47,23 @@ class EditNoteController extends GetxController {
           'description': descriptionC.text,
         });
         Get.defaultDialog(
-          title: 'Sukses',
-          middleText: 'Data berhasil diupdate',
-          textConfirm: 'Oke',
-          confirmTextColor: Colors.white,
-          onConfirm: () => Get.offAllNamed(Routes.home),
+          title: 'Success',
+          middleText: 'Save data successfully',
+          actions: [
+            OutlinedButton(
+              onPressed: () => Get.offAllNamed(Routes.home),
+              child: const Text('Okay'),
+            ),
+          ],
         );
         isLoading.value = false;
       } catch (e) {
         isLoading.value = false;
-        if (kDebugMode) {
-          print(e);
-        }
-        Get.snackbar('Terjadi Kesalahan', 'Gagal mengubah data');
+        if (kDebugMode) print(e);
+        Get.snackbar('Error', 'Failed to edit data!');
       }
     } else {
-      Get.snackbar('Terjadi Kesalahan', 'Field input harus diisi!');
+      Get.snackbar('Error', 'The input field cannot be empty!');
     }
   }
 }

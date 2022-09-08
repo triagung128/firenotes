@@ -9,7 +9,6 @@ class HomeController extends GetxController {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamNotes() async* {
     final uid = _auth.currentUser?.uid;
-
     yield* _firestore
         .collection('users')
         .doc(uid)
@@ -36,10 +35,8 @@ class HomeController extends GetxController {
           .doc(docId)
           .delete();
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      Get.snackbar('Terjadi Kesalahan', 'Gagal menghapus data');
+      if (kDebugMode) print(e);
+      Get.snackbar('Error', 'Failed to delete data!');
     }
   }
 }

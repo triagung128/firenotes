@@ -1,3 +1,4 @@
+import 'package:firenotes/app/widgets/form_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,44 +38,27 @@ class LoginView extends GetView<LoginController> {
           const SizedBox(
             height: 16,
           ),
-          Obx(
-            () => TextField(
-              controller: controller.passwordC,
-              autocorrect: false,
-              obscureText: controller.isPasswordHidden.isTrue ? true : false,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () => controller.isPasswordHidden.toggle(),
-                  icon: Icon(
-                    controller.isPasswordHidden.isTrue
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                  ),
-                ),
-              ),
-            ),
+          FormPassword(
+            textEditingController: controller.passwordC,
+            labelText: 'Password',
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Obx(
-                  () => CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    value: controller.isRememberMe.value,
-                    onChanged: (_) => controller.isRememberMe.toggle(),
-                    title: const Text('Remember Me'),
-                    controlAffinity: ListTileControlAffinity.leading,
+              Row(
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      value: controller.isRememberMe.value,
+                      onChanged: (_) => controller.isRememberMe.toggle(),
+                    ),
                   ),
-                ),
+                  const Text('Remember Me'),
+                ],
               ),
               TextButton(
                 onPressed: () => Get.toNamed(Routes.resetPassword),
-                child: const Text('Forgot Password ?'),
+                child: const Text('Forgot Password?'),
               ),
             ],
           ),

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firenotes/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -54,7 +54,7 @@ class HomeView extends GetView<HomeController> {
 
           if (snapshot.data!.docs.isEmpty || snapshot.data == null) {
             return const Center(
-              child: Text('Data kosong'),
+              child: Text('Data is empty'),
             );
           }
 
