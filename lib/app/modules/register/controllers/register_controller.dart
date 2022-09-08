@@ -2,14 +2,18 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../routes/app_pages.dart';
 
 class RegisterController extends GetxController {
+  final TextEditingController nameC = TextEditingController();
+  final TextEditingController phoneC = TextEditingController();
   final TextEditingController emailC = TextEditingController();
   final TextEditingController passwordC = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   RxBool isPasswordHidden = true.obs;
   RxBool isLoading = false.obs;
@@ -19,7 +23,10 @@ class RegisterController extends GetxController {
   }
 
   void register() async {
-    if (emailC.text.isNotEmpty && passwordC.text.isNotEmpty) {
+    if (nameC.text.isNotEmpty &&
+        phoneC.text.isNotEmpty &&
+        emailC.text.isNotEmpty &&
+        passwordC.text.isNotEmpty) {
       isLoading.value = true;
 
       try {
@@ -36,6 +43,14 @@ class RegisterController extends GetxController {
 
         // kirim link email verification
         await userCredential.user!.sendEmailVerification();
+
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'name': nameC.text,
+          'phone': phoneC.text,
+          'email': emailC.text,
+          'uid': userCredential.user!.uid,
+          'created_at': DateTime.now().toIso8601String(),
+        });
 
         Get.offAllNamed(Routes.login);
       } on FirebaseAuthException catch (e) {
@@ -56,7 +71,7 @@ class RegisterController extends GetxController {
         errorMsg(e.toString());
       }
     } else {
-      errorMsg('Email & Password harus diisi');
+      errorMsg('Semua input harus diisi');
     }
   }
 }

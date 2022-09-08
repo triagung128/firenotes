@@ -17,6 +17,32 @@ class RegisterView extends GetView<RegisterController> {
         padding: const EdgeInsets.all(16.0),
         children: [
           TextField(
+            controller: controller.nameC,
+            autocorrect: false,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.next,
+            decoration: const InputDecoration(
+              labelText: 'Name',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          TextField(
+            controller: controller.phoneC,
+            autocorrect: false,
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            decoration: const InputDecoration(
+              labelText: 'Phone',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          TextField(
             controller: controller.emailC,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
