@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../../widgets/image_profile.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -32,13 +35,12 @@ class ProfileView extends GetView<ProfileController> {
 
           if (snapshot.data == null) {
             return const Center(
-              child: Text('Tidak ada data'),
+              child: Text('No Data'),
             );
           } else {
             controller.emailC.text = snapshot.data!['email'];
             controller.nameC.text = snapshot.data!['name'];
             controller.phoneC.text = snapshot.data!['phone'];
-            String createdAt = snapshot.data!['created_at'];
 
             return ListView(
               padding: const EdgeInsets.all(16.0),
@@ -52,7 +54,6 @@ class ProfileView extends GetView<ProfileController> {
                   textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(
@@ -96,8 +97,46 @@ class ProfileView extends GetView<ProfileController> {
                 ),
                 Text(
                   DateFormat('dd MMMM y H:mm WIB').format(
-                    DateTime.parse(createdAt),
+                    DateTime.parse(snapshot.data!['created_at']),
                   ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Text(
+                  'Image Profile : ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                GetBuilder<ProfileController>(
+                  builder: (c) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        c.image != null
+                            ? ImageProfile(
+                                imageProvider: FileImage(
+                                  File(c.image!.path),
+                                ),
+                              )
+                            : snapshot.data?['img_profile'] != null
+                                ? ImageProfile(
+                                    imageProvider: NetworkImage(
+                                      snapshot.data!['img_profile'],
+                                    ),
+                                  )
+                                : const Text('No Profile Image'),
+                        TextButton(
+                          onPressed: () => c.imagePicker(),
+                          child: const Text('Select Image'),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 32.0,

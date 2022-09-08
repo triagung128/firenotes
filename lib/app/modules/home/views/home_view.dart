@@ -15,9 +15,31 @@ class HomeView extends GetView<HomeController> {
         title: const Text('Firenotes'),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () => Get.toNamed(Routes.profile),
-            icon: const Icon(Icons.person),
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream: controller.streamProfile(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircleAvatar(
+                  backgroundColor: Colors.grey[300],
+                );
+              }
+
+              final data = snapshot.data!.data();
+              return GestureDetector(
+                onTap: () => Get.toNamed(Routes.profile),
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey[300],
+                  backgroundImage: NetworkImage(
+                    data?['img_profile'] != null
+                        ? data!['img_profile']
+                        : 'https://ui-avatars.com/api/?name=${data?['name']}',
+                  ),
+                ),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 8.0,
           ),
         ],
       ),
