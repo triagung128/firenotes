@@ -1,20 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../../../routes/app_pages.dart';
 
 class HomeController extends GetxController {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
-  void logout() async {
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamNotes() async* {
+    final uid = _auth.currentUser?.uid;
+
+    yield* _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('notes')
+        .orderBy(
+          'created_at',
+          descending: true,
+        )
+        .snapshots();
+  }
+
+  void deleteNote(String docId) async {
     try {
-      await _auth.signOut();
-      Get.offAllNamed(Routes.login);
+      final uid = _auth.currentUser?.uid;
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('notes')
+          .doc(docId)
+          .delete();
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      Get.snackbar('Terjadi Kesalahan', 'Tidak dapat logout');
+      Get.snackbar('Terjadi Kesalahan', 'Gagal menghapus data');
     }
   }
 }
