@@ -1,7 +1,8 @@
-import 'package:firenotes/app/widgets/form_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/styles.dart';
+import '../../../widgets/form_password.dart';
 import '../controllers/login_controller.dart';
 import '../../../routes/app_pages.dart';
 
@@ -19,29 +20,61 @@ class LoginView extends GetView<LoginController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
+        title: const Text('Firenotes'),
+        titleTextStyle: appBarTextStyle,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 28,
+          vertical: 16,
+        ),
         children: [
+          const SizedBox(height: 46),
+          Text(
+            'Login',
+            style: headTextStyle,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 52),
+          Text(
+            'Email',
+            style: captionTextStyle,
+          ),
+          const SizedBox(height: 8),
           TextField(
             controller: controller.emailC,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),
+            style: formTextStyle,
+            decoration: InputDecoration(
+              hintText: 'Input Email',
+              hintStyle: formTextStyle.copyWith(
+                color: lightBlackColor.withOpacity(0.3),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 19,
+                horizontal: 16,
+              ),
+              filled: true,
+              fillColor: whiteColor,
             ),
           ),
-          const SizedBox(
-            height: 16,
+          const SizedBox(height: 21),
+          Text(
+            'Password',
+            style: captionTextStyle,
           ),
+          const SizedBox(height: 8),
           FormPassword(
-            textEditingController: controller.passwordC,
-            labelText: 'Password',
+            controller: controller.passwordC,
+            hintText: 'Input Password',
           ),
+          const SizedBox(height: 21),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -53,27 +86,45 @@ class LoginView extends GetView<LoginController> {
                       onChanged: (_) => controller.isRememberMe.toggle(),
                     ),
                   ),
-                  const Text('Remember Me'),
+                  Text(
+                    'Remember Me',
+                    style: bodyTextStyle,
+                  ),
                 ],
               ),
               TextButton(
                 onPressed: () => Get.toNamed(Routes.resetPassword),
-                child: const Text('Forgot Password?'),
+                child: Text(
+                  'Forgot Password?',
+                  style: bodyTextStyle.copyWith(color: secondaryColor),
+                ),
               ),
             ],
           ),
+          const SizedBox(height: 80),
           Obx(
             () => ElevatedButton(
               onPressed:
                   controller.isLoading.isTrue ? null : () => controller.login(),
-              child: Text(
-                controller.isLoading.isFalse ? 'Login' : 'Loading...',
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                textStyle: buttonTextStyle,
+                backgroundColor: secondaryColor,
               ),
+              child:
+                  Text(controller.isLoading.isFalse ? 'Login' : 'Loading...'),
             ),
           ),
+          const SizedBox(height: 20),
           TextButton(
-            onPressed: () => Get.toNamed(Routes.register),
-            child: const Text('Register'),
+            onPressed: () => Get.offNamed(Routes.register),
+            child: Text(
+              'Register',
+              style: bodyTextStyle.copyWith(color: secondaryColor),
+            ),
           ),
         ],
       ),

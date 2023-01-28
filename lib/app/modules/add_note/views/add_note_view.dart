@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/styles.dart';
 import '../controllers/add_note_controller.dart';
 
 class AddNoteView extends GetView<AddNoteController> {
@@ -11,49 +12,83 @@ class AddNoteView extends GetView<AddNoteController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Note'),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          TextField(
-            controller: controller.titleC,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Title',
-            ),
+        titleTextStyle: appBarTextStyle2,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Image.asset(
+            'assets/icons/arrow_left.png',
+            height: 20,
+            width: 12,
           ),
-          const SizedBox(
-            height: 16.0,
-          ),
-          TextField(
-            controller: controller.descriptionC,
-            autocorrect: false,
-            minLines: 3,
-            maxLines: 3,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Description',
-            ),
-          ),
-          const SizedBox(
-            height: 32.0,
-          ),
+        ),
+        actions: [
           Obx(
-            () => ElevatedButton(
+            () => IconButton(
               onPressed: controller.isLoading.isTrue
                   ? null
                   : () => controller.addNote(),
-              child: Text(controller.isLoading.isFalse ? 'Save' : 'Loading...'),
+              icon: const Icon(
+                Icons.save_as,
+                size: 28,
+              ),
             ),
           ),
         ],
       ),
+      body: ListView(
+        padding: const EdgeInsets.all(24),
+        children: [
+          TextField(
+            controller: controller.titleC,
+            autocorrect: false,
+            minLines: 1,
+            maxLines: null,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.next,
+            style: formTitleTextStyle,
+            decoration: InputDecoration.collapsed(
+              hintText: 'Title',
+              hintStyle: formTitleTextStyle.copyWith(
+                color: darkBlackColor.withOpacity(0.7),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          TextField(
+            controller: controller.descriptionC,
+            autocorrect: false,
+            minLines: 5,
+            maxLines: null,
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.done,
+            style: formDescriptionTextStyle,
+            decoration: InputDecoration.collapsed(
+              hintText: 'Description',
+              hintStyle: formDescriptionTextStyle.copyWith(
+                color: lightBlackColor.withOpacity(0.7),
+              ),
+            ),
+          ),
+        ],
+      ),
+      // bottomNavigationBar: Obx(
+      //   () => Container(
+      //     margin: const EdgeInsets.all(24),
+      //     child: ElevatedButton(
+      //       style: ElevatedButton.styleFrom(
+      //         shape: RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.circular(12),
+      //         ),
+      //         padding: const EdgeInsets.symmetric(vertical: 24),
+      //         textStyle: buttonTextStyle,
+      //         backgroundColor: secondaryColor,
+      //       ),
+      //       onPressed:
+      //           controller.isLoading.isTrue ? null : () => controller.addNote(),
+      //       child: Text(controller.isLoading.isFalse ? 'Save' : 'Loading...'),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

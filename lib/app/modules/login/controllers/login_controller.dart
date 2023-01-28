@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,7 +26,7 @@ class LoginController extends GetxController {
           email: emailC.text,
           password: passwordC.text,
         );
-        if (kDebugMode) print(userCredential);
+        debugPrint(userCredential.toString());
 
         if (userCredential.user!.emailVerified == true) {
           if (box.read(rememberMeKey) != null) {
@@ -45,7 +44,7 @@ class LoginController extends GetxController {
           Get.offAllNamed(Routes.home);
         } else {
           isLoading.value = false;
-          if (kDebugMode) print('User not verified!');
+          debugPrint('User not verified!');
 
           Get.defaultDialog(
             title: 'Your account is not verified',
@@ -61,9 +60,7 @@ class LoginController extends GetxController {
                     // kirim ulang email verifikasi
                     await userCredential.user!.sendEmailVerification();
                     Get.back();
-                    if (kDebugMode) {
-                      print('Successfully sent verification email');
-                    }
+                    debugPrint('Successfully sent verification email');
                     Get.snackbar(
                       'Success',
                       'We have sent a verification email. Check your email!',
@@ -85,7 +82,7 @@ class LoginController extends GetxController {
         }
       } on FirebaseAuthException catch (e) {
         isLoading.value = false;
-        if (kDebugMode) print(e.code);
+        debugPrint(e.code);
         Get.snackbar('Error', e.code);
       }
     } else {

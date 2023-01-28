@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firenotes/app/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -16,11 +17,23 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
-        centerTitle: true,
+        titleTextStyle: appBarTextStyle2,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Image.asset(
+            'assets/icons/arrow_left.png',
+            height: 20,
+            width: 12,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () => controller.logout(),
-            icon: const Icon(Icons.logout),
+            icon: const Icon(
+              Icons.logout,
+              size: 28,
+              color: darkBlackColor,
+            ),
           ),
         ],
       ),
@@ -43,79 +56,77 @@ class ProfileView extends GetView<ProfileController> {
             controller.phoneC.text = snapshot.data!['phone'];
 
             return ListView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(24),
               children: [
-                TextField(
-                  readOnly: true,
-                  enabled: false,
-                  controller: controller.emailC,
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                  ),
+                Text(
+                  'Email',
+                  style: captionTextStyle,
                 ),
-                const SizedBox(
-                  height: 16,
+                const SizedBox(height: 8),
+                Text(
+                  snapshot.data!['email'],
+                  style: titleTextStyle,
                 ),
+                const SizedBox(height: 21),
+                Text(
+                  'Name',
+                  style: captionTextStyle,
+                ),
+                const SizedBox(height: 8),
                 TextField(
                   controller: controller.nameC,
                   autocorrect: false,
                   textCapitalization: TextCapitalization.words,
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
+                  style: formTextStyle,
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    hintStyle: formTextStyle.copyWith(
+                      color: lightBlackColor.withOpacity(0.3),
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
+                const SizedBox(height: 21),
+                Text(
+                  'Phone',
+                  style: captionTextStyle,
                 ),
+                const SizedBox(height: 8),
                 TextField(
                   controller: controller.phoneC,
                   autocorrect: false,
                   keyboardType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone',
-                    border: OutlineInputBorder(),
+                  style: formTextStyle,
+                  decoration: InputDecoration(
+                    hintText: 'Phone',
+                    hintStyle: formTextStyle.copyWith(
+                      color: lightBlackColor.withOpacity(0.3),
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Text(
+                const SizedBox(height: 21),
+                Text(
                   'Created At : ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: captionTextStyle,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 Text(
                   DateFormat('dd MMMM y H:mm WIB').format(
                     DateTime.parse(snapshot.data!['created_at']),
                   ),
+                  style: titleTextStyle,
                 ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Text(
+                const SizedBox(height: 21),
+                Text(
                   'Image Profile : ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: captionTextStyle,
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
                 GetBuilder<ProfileController>(
                   builder: (c) {
                     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         c.image != null
                             ? ImageProfile(
@@ -130,6 +141,7 @@ class ProfileView extends GetView<ProfileController> {
                                     ),
                                   )
                                 : const Text('No Profile Image'),
+                        const SizedBox(width: 24),
                         TextButton(
                           onPressed: () => c.imagePicker(),
                           child: const Text('Select Image'),
@@ -138,14 +150,20 @@ class ProfileView extends GetView<ProfileController> {
                     );
                   },
                 ),
-                const SizedBox(
-                  height: 32.0,
-                ),
+                const SizedBox(height: 60),
                 Obx(
                   () => ElevatedButton(
                     onPressed: controller.isLoading.isTrue
                         ? null
                         : () => controller.updateProfile(),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 24),
+                      textStyle: buttonTextStyle,
+                      backgroundColor: secondaryColor,
+                    ),
                     child: Text(
                       controller.isLoading.isFalse
                           ? 'Update Profile'
@@ -153,12 +171,13 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                ElevatedButton(
+                const SizedBox(height: 20),
+                TextButton(
                   onPressed: () => Get.toNamed(Routes.changePassword),
-                  child: const Text('Change Password'),
+                  child: Text(
+                    'Change Password',
+                    style: bodyTextStyle.copyWith(color: secondaryColor),
+                  ),
                 ),
               ],
             );

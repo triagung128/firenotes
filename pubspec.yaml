@@ -13,8 +13,10 @@ dependencies:
   firebase_storage: ^11.0.10
   flutter:
     sdk: flutter
+  flutter_staggered_grid_view: ^0.6.2
   get: 4.6.5
   get_storage: ^2.0.3
+  google_fonts: ^4.0.0
   image_picker: ^0.8.5+3
   intl: ^0.18.0
 
@@ -25,3 +27,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - 'assets/icons/'

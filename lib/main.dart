@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firenotes/app/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,6 +32,30 @@ void main() async {
         return GetMaterialApp(
           title: "Firenotes",
           debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: primaryColor,
+            appBarTheme: const AppBarTheme(
+              elevation: 0,
+              backgroundColor: primaryColor,
+              centerTitle: true,
+              foregroundColor: darkBlackColor,
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              hintStyle: formTextStyle.copyWith(
+                color: lightBlackColor.withOpacity(0.3),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 19,
+                horizontal: 16,
+              ),
+              filled: true,
+              fillColor: whiteColor,
+            ),
+          ),
           initialRoute:
               snapshot.data != null && snapshot.data!.emailVerified == true
                   ? Routes.home
