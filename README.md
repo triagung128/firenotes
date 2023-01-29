@@ -1,16 +1,32 @@
-# firenotes
+# Firenotes
+Firenotes is a notes application that is stored online. This project built using flutter, firebase, and getx.
 
-A new Flutter project.
+![Banner 1](https://github.com/triagung128/firenotes/blob/main/assets/banners/1.png)
+![Banner 2](https://github.com/triagung128/firenotes/blob/main/assets/banners/2.png)
 
-## Getting Started
+## Feature Apps
+- Login
+- Register
+- Create/Update Notes
+- Save Notes Online
+- My Profile
+- Change Password
+- Logout
 
-This project is a starting point for a Flutter application.
+## State Management
+- Flutter Getx
 
-A few resources to get you started if this is your first Flutter project:
+## Dependencies
+- cloud_firestore
+- firebase_auth
+- firebase_core
+- flutter_staggered_grid_view
+- firebase_storage
+- get
+- get_storage
+- google_fonts
+- image_picker
+- intl
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## References UI Design
+- [Figma Community](https://www.figma.com/community/file/1103197184827355718)
