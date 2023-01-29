@@ -144,7 +144,12 @@ class ProfileView extends GetView<ProfileController> {
                         const SizedBox(width: 24),
                         TextButton(
                           onPressed: () => c.imagePicker(),
-                          child: const Text('Select Image'),
+                          child: Text(
+                            'Select Image',
+                            style: bodyTextStyle.copyWith(
+                              color: secondaryColor,
+                            ),
+                          ),
                         ),
                       ],
                     );
