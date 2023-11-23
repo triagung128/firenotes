@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../utils/styles.dart';
 
 class FormPassword extends StatelessWidget {
   const FormPassword({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
-  }) : super(key: key);
+  });
 
   final TextEditingController controller;
   final String hintText;

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/styles.dart';
 import '../../../widgets/form_password.dart';
 import '../controllers/login_controller.dart';
-import '../../../routes/app_pages.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {

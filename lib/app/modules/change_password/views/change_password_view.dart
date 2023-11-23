@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../../../utils/styles.dart';
@@ -6,7 +7,7 @@ import '../../../widgets/form_password.dart';
 import '../controllers/change_password_controller.dart';
 
 class ChangePasswordView extends GetView<ChangePasswordController> {
-  const ChangePasswordView({Key? key}) : super(key: key);
+  const ChangePasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,9 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
           const SizedBox(height: 80),
           Obx(
             () => ElevatedButton(
-              onPressed: controller.isLoading.isTrue ? null : () {},
+              onPressed: controller.isLoading.isTrue
+                  ? null
+                  : () => controller.changePassword(),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

@@ -1,6 +1,7 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class ResetPasswordController extends GetxController {
   final TextEditingController emailC = TextEditingController();
@@ -10,7 +11,7 @@ class ResetPasswordController extends GetxController {
   RxBool isLoading = false.obs;
 
   void errMsg(String msg) {
-    Get.snackbar('Terjadi Kesalahan', msg);
+    Get.snackbar('Error', msg);
   }
 
   void resetPassword() async {
@@ -23,18 +24,18 @@ class ResetPasswordController extends GetxController {
 
         Get.back();
         Get.snackbar(
-          'Berhasil',
-          'Kami telah mengirimkan link untuk reset password ke email Anda!',
+          'Success',
+          'We have sent a link to reset your password to your email',
         );
       } on FirebaseAuthException catch (e) {
         isLoading.value = false;
         errMsg(e.code);
       } catch (e) {
         isLoading.value = false;
-        errMsg('Tidak dapat reset password ke email ini.');
+        errMsg('Failed to reset password to this email.');
       }
     } else {
-      errMsg('Email belum diisi!');
+      errMsg('Email has not been filled in!');
     }
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
+import '../../../utils/styles.dart';
 import '../controllers/reset_password_controller.dart';
 
 class ResetPasswordView extends GetView<ResetPasswordController> {
-  const ResetPasswordView({Key? key}) : super(key: key);
+  const ResetPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,28 +16,57 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 28,
+          vertical: 16,
+        ),
         children: [
+          Text(
+            'Email',
+            style: captionTextStyle,
+          ),
+          const SizedBox(height: 8),
           TextField(
             controller: controller.emailC,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),
+            textInputAction: TextInputAction.done,
+            style: formTextStyle,
+            decoration: InputDecoration(
+              hintText: 'Input Email',
+              hintStyle: formTextStyle.copyWith(
+                color: lightBlackColor.withOpacity(0.3),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 19,
+                horizontal: 16,
+              ),
+              filled: true,
+              fillColor: whiteColor,
             ),
           ),
           const SizedBox(
-            height: 16,
+            height: 32,
           ),
           Obx(
             () => ElevatedButton(
               onPressed: controller.isLoading.isTrue
                   ? null
                   : () => controller.resetPassword(),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                textStyle: buttonTextStyle,
+                backgroundColor: secondaryColor,
+              ),
               child: Text(
-                controller.isLoading.isFalse ? 'Login' : 'Loading...',
+                controller.isLoading.isFalse ? 'Reset Password' : 'Loading...',
               ),
             ),
           ),

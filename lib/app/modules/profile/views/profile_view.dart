@@ -1,16 +1,18 @@
 import 'dart:io';
 
-import 'package:firenotes/app/utils/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import 'package:firenotes/app/utils/styles.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../widgets/image_profile.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {

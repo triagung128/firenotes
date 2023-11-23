@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../../../utils/styles.dart';
 import '../controllers/edit_note_controller.dart';
 
 class EditNoteView extends GetView<EditNoteController> {
-  const EditNoteView({Key? key}) : super(key: key);
+  const EditNoteView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,15 @@
+import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firenotes/app/utils/styles.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'firebase_options.dart';
+import 'package:firenotes/app/utils/styles.dart';
 
 import 'app/modules/splash_screen/splash_screen.dart';
 import 'app/routes/app_pages.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +34,7 @@ void main() async {
           title: "Firenotes",
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            useMaterial3: false,
             scaffoldBackgroundColor: primaryColor,
             appBarTheme: const AppBarTheme(
               elevation: 0,

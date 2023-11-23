@@ -1,13 +1,15 @@
-import 'package:firenotes/app/widgets/form_password.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+
+import 'package:firenotes/app/widgets/form_password.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/styles.dart';
 import '../controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
-  const RegisterView({Key? key}) : super(key: key);
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {

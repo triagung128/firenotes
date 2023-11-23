@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class ImageProfile extends StatelessWidget {
   const ImageProfile({
-    Key? key,
+    super.key,
     required this.imageProvider,
-  }) : super(key: key);
+  });
 
   final ImageProvider imageProvider;
 
