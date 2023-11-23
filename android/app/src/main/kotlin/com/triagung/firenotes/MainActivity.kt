@@ -1,4 +1,4 @@
-package com.example.firenotes
+package com.triagung.firenotes
 
 import io.flutter.embedding.android.FlutterActivity
 
